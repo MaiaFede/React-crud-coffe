@@ -7,9 +7,30 @@ import Administrador from "./components/pages/Administrador";
 import Inicio from "./components/pages/Inicio";
 import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import DetalleProducto from "./components/pages/DetalleProducto";
+import {BrowserRouter, Routes, Route} from "react-router-dom"
+import Login from "./components/pages/Login";
 
 function App() {
-  return <Menu></Menu>;
+   return (<BrowserRouter>
+   <Menu></Menu>
+   <Routes>
+     <Route path="/" element={<Inicio></Inicio>}></Route>
+     <Route path="/detalleproducto" element={<DetalleProducto></DetalleProducto>}>
+     </Route>
+     <Route path="/login" element={<Login></Login>}></Route>
+     <Route
+       path="/administrador"
+       element={<Administrador></Administrador>}
+     ></Route>
+     <Route
+       path="/administrador/crear"
+       element={<FormularioProducto></FormularioProducto>}
+     ></Route>
+     <Route path="*" element={<Error404></Error404>}></Route>
+   </Routes>
+   <Footer></Footer>
+ </BrowserRouter>
+   )
 }
 
 export default App;
