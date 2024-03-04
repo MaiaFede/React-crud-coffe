@@ -16,7 +16,7 @@ const Menu = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
+          <Nav className="ms-auto  ml-auto">
             <NavLink className="nav-link" to={"/"}>Inicio</NavLink>
             <NavLink className="nav-link" to={"/Administrador"}>Administrador</NavLink>
             <NavLink className="nav-link" to={"*"}>Registro</NavLink>

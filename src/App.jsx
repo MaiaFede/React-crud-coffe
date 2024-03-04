@@ -11,7 +11,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Login from "./components/pages/Login";
 
 function App() {
-   return (<BrowserRouter>
+   return (
+   <BrowserRouter>
    <Menu></Menu>
    <Routes>
      <Route path="/" element={<Inicio></Inicio>}></Route>
@@ -26,6 +27,11 @@ function App() {
        path="/administrador/crear"
        element={<FormularioProducto></FormularioProducto>}
      ></Route>
+     <Route
+         exact path="/administrador/editar/:id"
+          element={<FormularioProducto editando={true} titulo ='Editar producto'></FormularioProducto>}
+        ></Route>
+        
      <Route path="*" element={<Error404></Error404>}></Route>
    </Routes>
    <Footer></Footer>

@@ -1,7 +1,25 @@
 import { Container, Row } from "react-bootstrap";
 import CardProducto from "./producto/CardProducto";
+import {useEffect, useState} from "react";
+import { leerProductos } from "../../helpers/queries";
 
 const Inicio = () => {
+  const [productosInicio, setProductosInicio] = useState([]);
+
+  useEffect(() => {
+    obtenerProductos();
+  }, [])
+
+  const obtenerProductos = async () => {
+    const respuesta = await leerProductos();
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      console.log(datos);
+      setProductosInicio(datos)
+    } else {
+    }
+  };
+
   return (
     <section className="mainSection">
       <img
@@ -14,11 +32,8 @@ const Inicio = () => {
         <hr />
     
           <Row>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
-            <CardProducto></CardProducto>
+            {productosInicio.map((productoInicio)=><CardProducto key={productoInicio.id} productoInicio={productoInicio}></CardProducto>)}
+           
           </Row>
        
       </Container>
