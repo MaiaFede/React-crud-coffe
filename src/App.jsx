@@ -9,19 +9,26 @@ import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import DetalleProducto from "./components/pages/DetalleProducto";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import Login from "./components/pages/Login";
+import RutasProtegidas from "./components/routes/RutasProtegidas";
+import RutasAdmin from "./components/routes/RutasAdmin";
+import { useState } from "react";
 
 function App() {
+  const usuario = JSON.parse(sessionStorage.getItem('loginRollingCoffee')) || "";
+  const [usuarioLogueado, setUsuarioLogueado] = useState(usuario);
    return (
    <BrowserRouter>
-   <Menu></Menu>
+  <Menu usuarioLogueado={usuarioLogueado} setUsuarioLogueado={setUsuarioLogueado}></Menu>
    <Routes>
      <Route path="/" element={<Inicio></Inicio>}></Route>
      <Route path="/detalleproducto" element={<DetalleProducto></DetalleProducto>}>
      </Route>
-     <Route path="/login" element={<Login></Login>}></Route>
+     <Route exact path="/login" element={<Login setUsuarioLogueado={setUsuarioLogueado}></Login>}></Route>
      <Route
-       path="/administrador"
-       element={<Administrador></Administrador>}
+       exact path="/administrador/*"
+       element={<RutasProtegidas>
+        <RutasAdmin></RutasAdmin>
+      </RutasProtegidas>}
      ></Route>
      <Route
        path="/administrador/crear"

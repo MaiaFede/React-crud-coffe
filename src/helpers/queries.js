@@ -53,3 +53,22 @@ export const obtenerProducto = async (id) => {
   }
 };
 
+
+// cunado tengamos el backend con un login enviar solicitud
+
+const userAdmin ={
+  email: "admin@rollingcoffe.com",
+  password: "123Aa$123"
+}
+export const login = (usuario) =>{
+  if (
+    usuario.email === userAdmin.email &&
+    usuario.password == userAdmin.password
+  ){
+    sessionStorage.setItem("loginRollingCoffee", JSON.stringify(usuario.email))
+  return true;
+  }else {
+    return false
+  }
+};
+
