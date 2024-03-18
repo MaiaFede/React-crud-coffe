@@ -32,7 +32,7 @@ function App() {
      ></Route>
      <Route
        path="/administrador/crear"
-       element={<FormularioProducto></FormularioProducto>}
+       element={<FormularioProducto editando={false} titulo ='Nuevo producto'></FormularioProducto>}
      ></Route>
      <Route
          exact path="/administrador/editar/:id"
