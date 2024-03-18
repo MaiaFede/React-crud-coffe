@@ -1,6 +1,6 @@
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import {crearProducto, obtenerProducto, } from "../../../helpers/queries"
+import {crearProducto, obtenerProducto,editarProducto } from "../../../helpers/queries"
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { useParams , useNavigate } from "react-router";
@@ -10,23 +10,54 @@ const FormularioProducto = ({ editando, titulo }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset,setValue
   } = useForm();
-  const {id} = useParams()
 
-  useEffect(()=>{
-    if(editando){
+  const {id} = useParams()
+  const navegacion = useNavigate();
+ 
+  useEffect(() => {
+    if (editando) {
       //solicitar y mostrar el producto
       cargarProductoEnFormulario();
     }
-  }, {})
+  }, []);
 
-  const cargarProductoEnFormulario = ()=>{
-    const respuesta = obtenerProducto()
-  }
+  const cargarProductoEnFormulario = async () => {
+    const respuesta = await obtenerProducto(id);
+    if (respuesta.status === 200) {
+      //extraer el producto de la respuesta
+      const productoBuscado = await respuesta.json();
+      console.log(productoBuscado);
+      //cargar los datos del producto en el formulario
+      setValue("nombreProducto", productoBuscado.nombreProducto);
+      setValue("precio", productoBuscado.precio);
+      setValue("imagen", productoBuscado.imagen);
+      setValue("descripcion_breve", productoBuscado.descripcion_breve);
+      setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
+      setValue("categoria", productoBuscado.categoria);
+    }
+  };
+
   const datosValidados = async (producto) => {
     if (editando) {
-      console.log("aqui editar un producto");
+      const respuesta = await editarProducto(producto, id);
+      //si recibi status 200 se edito correctamente
+      if (respuesta.status === 200) {
+        Swal.fire({
+          title: "Producto editado",
+          text: `El producto: ${producto.nombreProducto}, fue editado correctamente`,
+          icon: "success",
+        });
+        //redireccionar
+        navegacion('/administrador');
+      } else {
+        Swal.fire({
+          title: "Ocurrio un error",
+          text: `El producto: ${producto.nombreProducto}, no pudo ser editado, intente esta operación en unos minutos.`,
+          icon: "error",
+        });
+      }
     } else {
       //le voy a pedir a la api crear el producto nuevo
       const respuesta = await crearProducto(producto);
@@ -50,7 +81,7 @@ const FormularioProducto = ({ editando, titulo }) => {
 
   return (
     <section className="container mainSection">
-      <h1 className="display-4 mt-5">Nuevo producto</h1>
+      <h1 className="display-4 mt-5">{titulo}</h1>
       <hr />
       <Form className="my-4" onSubmit={handleSubmit(datosValidados)}>
         <Form.Group
