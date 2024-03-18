@@ -16,11 +16,11 @@ const ItemProducto = ({productoProps, setProductos}) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         //solicitar a la api eliminar el producto
-        const respuesta = await borrarProducto(producto.id);
+        const respuesta = await borrarProducto(productoProps.id);
         if(respuesta.status === 200){
           Swal.fire({
             title: "Producto eliminado",
-            text: `El producto ${producto.nombreProducto} fue eliminado correctamente`,
+            text: `El producto ${productoProps.nombreProducto} fue eliminado correctamente`,
             icon: "success"
           });
           //actualizar la tabla del administrador
@@ -32,7 +32,7 @@ const ItemProducto = ({productoProps, setProductos}) => {
         }else{
           Swal.fire({
             title: "Ocurrio un error",
-            text: `El producto ${producto.nombreProducto} no fue eliminado, intente esta operación en unos minutos`,
+            text: `El producto ${productoProps.nombreProducto} no fue eliminado, intente esta operación en unos minutos`,
             icon: "error"
           });
         }

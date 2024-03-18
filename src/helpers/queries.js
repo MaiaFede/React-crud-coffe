@@ -42,6 +42,21 @@ export const borrarProducto = async (id) => {
   }
 };
 
+//PUT o PATCH
+export const editarProducto = async (productoEditado, id) => {
+  try {
+    const respuesta = await fetch(APIProductos+'/'+id,{
+      method: "PUT",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(productoEditado)
+    });
+    return respuesta;
+  } catch (error) {
+    console.log(error);
+  }
+};
 //GET de un unico producto
 export const obtenerProducto = async (id) => {
   try {
