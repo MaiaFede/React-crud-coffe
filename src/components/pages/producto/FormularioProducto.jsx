@@ -10,11 +10,10 @@ const FormularioProducto = ({ editando, titulo }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
+    reset,setValue
   } = useForm();
   const {id} = useParams()
-
-  useEffect(()=>{
+  const navegacion = useNavigate()useEffect(()=>{
     if(editando){
       //solicitar y mostrar el producto
       cargarProductoEnFormulario();
@@ -50,7 +49,7 @@ const FormularioProducto = ({ editando, titulo }) => {
 
   return (
     <section className="container mainSection">
-      <h1 className="display-4 mt-5">Nuevo producto</h1>
+      <h1 className="display-4 mt-5">{titulo}</h1>
       <hr />
       <Form className="my-4" onSubmit={handleSubmit(datosValidados)}>
         <Form.Group
